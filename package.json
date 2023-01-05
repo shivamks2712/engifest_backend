@@ -1,0 +1,37 @@
+{
+  "name": "engifest-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "migrate": "npx sequelize-cli db:migrate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suhas-malhotra/engifest-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suhas-malhotra/engifest-backend/issues"
+  },
+  "homepage": "https://github.com/suhas-malhotra/engifest-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "glob": "^8.0.3",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "razorpay": "^2.8.4",
+    "sequelize": "^6.28.0",
+    "uuid": "^9.0.0",
+    "winston": "^3.8.2",
+    "winston-syslog": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.5.2"
+  }
+}
