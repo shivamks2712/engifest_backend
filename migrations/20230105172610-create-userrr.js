@@ -31,6 +31,9 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "SET NULL",
       },
+      ticket_number: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

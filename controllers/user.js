@@ -42,7 +42,7 @@ module.exports = {
         zeroes = "";
       }
 
-      let ticket_number = `ENGI2K23/${zeroes}${count}/00`;
+      let ticket_number = `ENGI2K23/${zeroes}${count + 1}/00`;
       if (participant) {
         ticket_number = participant.ticket_number;
         isPaid = true;
@@ -50,6 +50,7 @@ module.exports = {
 
       if (email.split("@")[1] === "dtu.ac.in") {
         isDtu = true;
+        isPaid = true;
         allowed_entries = 0;
         college_name = "Delhi Technological University";
       }
@@ -76,7 +77,7 @@ module.exports = {
   },
   getUser: async (req, res, next) => {
     try {
-      const { error, value } = Validation.user.createUser(req.query);
+      const { error, value } = Validation.user.getUser(req.query);
       if (error) {
         return res.status(400).send({
           status: 400,
@@ -85,7 +86,8 @@ module.exports = {
         });
       }
       const { email } = req.query;
-      const User = await Service.userService.getUser({ email });
+      let User = await Service.userService.getUser({ email });
+      User["ticket_number"] = "";
       return res.status(200).json({
         status: 200,
         message: "User Details fetched successfully",

@@ -50,7 +50,7 @@ module.exports = {
           const participant = await Service.participantService.getParticipant({
             email,
           });
-          if (participantUser.isPaid || participant) {
+          if ((participantUser && participantUser.isPaid) || participant) {
             return res.status(400).send({
               status: 400,
               message: "Ticket is already bought for that user",
@@ -60,8 +60,7 @@ module.exports = {
           if (email.split("@")[1] === "dtu.ac.in") {
             return res.status(400).send({
               status: 400,
-              message:
-                "You cannot add DTU students as they can have free entries",
+              message: "You cannot add DTU students as they have free entries",
               data: { email },
             });
           }
@@ -78,14 +77,16 @@ module.exports = {
               userId: user.id,
             });
           const userCount = user.ticket_number.split("/")[1];
-          const ticket_number = `ENGI2K23/${userCount}/${participantCount + 1}`;
-
+          const ticket_number = `ENGI2K23/${userCount}/0${
+            participantCount + 1
+          }`;
           await Service.participantService.addParticipant({
             name,
             college_name,
             email,
             phone_number,
             ticket_number,
+            userId: user.id,
           });
         })
       );
