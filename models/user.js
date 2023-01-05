@@ -22,7 +22,13 @@ module.exports = (sequelize, Sequelize) => {
       access_token: {
         type: Sequelize.STRING,
       },
+      ticket_number: {
+        type: Sequelize.STRING,
+      },
       isDtu: {
+        type: Sequelize.BOOLEAN,
+      },
+      isPaid: {
         type: Sequelize.BOOLEAN,
       },
       college_name: {
@@ -41,7 +47,7 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
   user.associate = (models) => {
-    models.user.hasMany(models.participants);
+    models.user.hasMany(models.participant);
   };
 
   return user;
