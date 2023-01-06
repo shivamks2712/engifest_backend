@@ -13,7 +13,15 @@ module.exports = {
         });
       }
 
-      let { access_token, name, email, image_url, college_name, phone_number } = req.body;
+      let {
+        access_token,
+        name,
+        email,
+        photo,
+        college_name,
+        phone_number,
+        uid,
+      } = req.body;
       let isDtu = false;
       let allowed_entries = 0;
       let isPaid = false;
@@ -59,13 +67,14 @@ module.exports = {
         access_token,
         name,
         email,
-        image_url,
+        photo,
         college_name,
         phone_number,
         isDtu,
         allowed_entries,
         ticket_number,
         isPaid,
+        uid,
       });
 
       return res
