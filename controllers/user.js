@@ -1,5 +1,6 @@
 const Service = require("../service");
 const Validation = require("../validation");
+
 module.exports = {
   createUser: async (req, res, next) => {
     try {
@@ -12,8 +13,7 @@ module.exports = {
         });
       }
 
-      let { access_token, name, email, image_url, college_name, phone_number } =
-        req.body;
+      let { access_token, name, email, image_url, college_name, phone_number } = req.body;
       let isDtu = false;
       let allowed_entries = 0;
       let isPaid = false;

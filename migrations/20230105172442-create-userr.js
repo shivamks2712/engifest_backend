@@ -15,10 +15,16 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
       },
-      image_url: {
+      photo: {
+        type: Sequelize.STRING,
+      },
+      uid: {
         type: Sequelize.STRING,
       },
       access_token: {
+        type: Sequelize.STRING,
+      },
+      ticket_number: {
         type: Sequelize.STRING,
       },
       isDtu: {
@@ -35,9 +41,6 @@ module.exports = {
       },
       allowed_entries: {
         type: Sequelize.DOUBLE,
-      },
-      ticket_number: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

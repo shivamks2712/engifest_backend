@@ -16,7 +16,10 @@ module.exports = (sequelize, Sequelize) => {
       email: {
         type: Sequelize.STRING,
       },
-      image_url: {
+      photo: {
+        type: Sequelize.STRING,
+      },
+      uid: {
         type: Sequelize.STRING,
       },
       access_token: {
