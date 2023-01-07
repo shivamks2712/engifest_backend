@@ -28,17 +28,13 @@ module.exports = {
       let isDtu = false;
       let allowed_entries = 0;
       let isPaid = false;
-      const no_of_days = 30;
-      
+
       const oldUser = await Service.userService.getUser({ email });
 
       if (oldUser) {
 
-        console.log(oldUser.dataValues);
-
         const token = jwt.sign({
                 ...oldUser.dataValues,
-                expiry_date: new Date(Date.now() + no_of_days * 24 * 60 * 60 * 1000)
             },
             process.env.ACCESS_TOKEN_SECRET
         );
@@ -99,7 +95,6 @@ module.exports = {
       const newUser = await Service.userService.createUser(userData);
       const token = jwt.sign({
               ...userData,
-              expiry_date: new Date(Date.now() + no_of_days * 24 * 60 * 60 * 1000)
           },
           process.env.ACCESS_TOKEN_SECRET
       );
@@ -136,4 +131,33 @@ module.exports = {
       next(error);
     }
   },
+  decodeToken: async (req, res, next) => {
+
+    try {
+
+      const { token } = req.query;
+
+      console.log(token);
+
+      if (!token) {
+
+        return res.status(400).json({
+          success: false,
+          message: "Token not passed",
+        });
+      }
+
+      const token_data = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+      return res.status(200).json({
+        status: 200,
+        message: "User Details fetched successfully",
+        userData: token_data,
+      });
+
+    } catch (error) {
+      next(error);
+    }
+
+  }
 };
