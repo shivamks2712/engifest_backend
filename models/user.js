@@ -51,6 +51,7 @@ module.exports = (sequelize, Sequelize) => {
   );
   user.associate = (models) => {
     models.user.hasMany(models.participant);
+    models.user.hasMany(models.payment);
   };
 
   return user;
