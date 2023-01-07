@@ -2,6 +2,7 @@ const Razorpay = require("razorpay");
 const uniqueId = require("uniqid");
 const { createHmac } = require("crypto");
 const { use } = require("../routes");
+const Service = require("../service");
 require("dotenv").config();
 
 const instance = new Razorpay({
@@ -15,9 +16,9 @@ module.exports = {
         
         try {
 
-            const user_cnt = req.query['user_cnt'];
+            const {user_cnt, email} = req.query;
 
-            if(!user_cnt || user_cnt > 5) {
+            if(!user_cnt || user_cnt > 5 || !email) {
 
                 return res.status(400).send({
                     success: false,
@@ -34,7 +35,7 @@ module.exports = {
                 receipt: uniqueId(),
             };
         
-            instance.orders.create(options, function (err, order) {
+            instance.orders.create(options, async function (err, order) {
             
                 if(err) {
                     
@@ -43,7 +44,17 @@ module.exports = {
                         message: "Order not created",
                     });
                 }
-        
+
+                let User = await Service.userService.getUser({ email });
+                
+                const newOrder = await Service.paymentService.createPaymentOrder({
+
+                    razorpay_order_id: order['id'],
+                    payment_status: false,
+                    userId: User.id,
+                    email: email,
+                });
+                
                 return res.status(200).json({
                     ...order,
                     success: true,

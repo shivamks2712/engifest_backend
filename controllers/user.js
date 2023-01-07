@@ -1,5 +1,7 @@
 const Service = require("../service");
 const Validation = require("../validation");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   createUser: async (req, res, next) => {
@@ -22,20 +24,37 @@ module.exports = {
         phone_number,
         uid,
       } = req.body;
+
       let isDtu = false;
       let allowed_entries = 0;
       let isPaid = false;
+      const no_of_days = 30;
+      
       const oldUser = await Service.userService.getUser({ email });
+
       if (oldUser) {
-        return res.status(400).send({
-          status: 400,
-          message: "Email already added",
-          data: {},
+
+        console.log(oldUser.dataValues);
+
+        const token = jwt.sign({
+                ...oldUser.dataValues,
+                expiry_date: new Date(Date.now() + no_of_days * 24 * 60 * 60 * 1000)
+            },
+            process.env.ACCESS_TOKEN_SECRET
+        );
+
+        return res.status(200).send({
+          success: true,
+          message: "login success",
+          token: token,
         });
+
       }
+
       const participant = await Service.participantService.getParticipant({
         email,
       });
+
       const count = await Service.userService.getUserCount();
       let zeroes = "";
       if (count < 10) {
@@ -63,7 +82,7 @@ module.exports = {
         college_name = "Delhi Technological University";
       }
 
-      const newUser = await Service.userService.createUser({
+      const userData = {
         access_token,
         name,
         email,
@@ -75,11 +94,22 @@ module.exports = {
         ticket_number,
         isPaid,
         uid,
+      };
+
+      const newUser = await Service.userService.createUser(userData);
+      const token = jwt.sign({
+              ...userData,
+              expiry_date: new Date(Date.now() + no_of_days * 24 * 60 * 60 * 1000)
+          },
+          process.env.ACCESS_TOKEN_SECRET
+      );
+
+      return res.status(200).json({ 
+        status: 200, 
+        message: "User Saved", 
+        token: token 
       });
 
-      return res
-        .status(200)
-        .json({ status: 200, message: "User Saved", data: newUser });
     } catch (error) {
       next(error);
     }
