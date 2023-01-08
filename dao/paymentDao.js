@@ -17,10 +17,10 @@ module.exports = {
   getOrder: async (order) => {
     try {
       const query = {
-        where: order
+        where: order,
       };
       const newOrder = await db.payment.findOne(query);
-      return newOrder;
+      return newOrder.dataValues;
     } catch (error) {
       throw new Error(error);
     }

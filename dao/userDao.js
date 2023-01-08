@@ -25,7 +25,7 @@ module.exports = {
         ],
       };
       const user = await db.user.findOne(query);
-      return user;
+      return user.dataValues;
     } catch (error) {
       throw new Error(error);
     }

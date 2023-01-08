@@ -35,7 +35,7 @@ module.exports = {
       if (oldUser) {
         const token = jwt.sign(
           {
-            ...oldUser.dataValues,
+            ...oldUser,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
