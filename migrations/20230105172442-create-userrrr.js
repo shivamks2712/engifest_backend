@@ -33,6 +33,9 @@ module.exports = {
       isPaid: {
         type: Sequelize.BOOLEAN,
       },
+      isEntered: {
+        type: Sequelize.BOOLEAN,
+      },
       college_name: {
         type: Sequelize.STRING,
       },

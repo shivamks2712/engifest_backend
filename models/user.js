@@ -31,6 +31,10 @@ module.exports = (sequelize, Sequelize) => {
       isDtu: {
         type: Sequelize.BOOLEAN,
       },
+      isEntered: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       isPaid: {
         type: Sequelize.BOOLEAN,
       },

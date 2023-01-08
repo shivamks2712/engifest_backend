@@ -38,4 +38,16 @@ module.exports = {
       throw new Error(error);
     }
   },
+  updateUser: async (userObj) => {
+    try {
+      const user = await db.user.update(userObj, {
+        where: { id: userObj.id },
+        returning: true,
+        plain: true,
+      });
+      return user;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };

@@ -32,11 +32,11 @@ module.exports = {
       const oldUser = await Service.userService.getUser({ email });
 
       if (oldUser) {
-
-        const token = jwt.sign({
-                ...oldUser.dataValues,
-            },
-            process.env.ACCESS_TOKEN_SECRET
+        const token = jwt.sign(
+          {
+            ...oldUser.dataValues,
+          },
+          process.env.ACCESS_TOKEN_SECRET
         );
 
         return res.status(200).send({
@@ -44,7 +44,6 @@ module.exports = {
           message: "login success",
           token: token,
         });
-
       }
 
       const participant = await Service.participantService.getParticipant({
@@ -93,18 +92,18 @@ module.exports = {
       };
 
       const newUser = await Service.userService.createUser(userData);
-      const token = jwt.sign({
-              ...userData,
-          },
-          process.env.ACCESS_TOKEN_SECRET
+      const token = jwt.sign(
+        {
+          ...userData,
+        },
+        process.env.ACCESS_TOKEN_SECRET
       );
 
-      return res.status(200).json({ 
-        status: 200, 
-        message: "User Saved", 
-        token: token 
+      return res.status(200).json({
+        status: 200,
+        message: "User Saved",
+        token: token,
       });
-
     } catch (error) {
       next(error);
     }
@@ -132,15 +131,12 @@ module.exports = {
     }
   },
   decodeToken: async (req, res, next) => {
-
     try {
-
       const { token } = req.query;
 
       console.log(token);
 
       if (!token) {
-
         return res.status(400).json({
           success: false,
           message: "Token not passed",
@@ -154,10 +150,32 @@ module.exports = {
         message: "User Details fetched successfully",
         userData: token_data,
       });
-
     } catch (error) {
       next(error);
     }
-
-  }
+  },
+  grantEntry: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const user = await Service.userService.getUser({ id });
+      if (user.isEntered || !user) {
+        return res.status(400).json({
+          status: 400,
+          message: "User has already entered or invalid user",
+          data: [],
+        });
+      }
+      await Service.userService.updateUser({
+        id,
+        isEntered: true,
+      });
+      return res.status(200).json({
+        status: 200,
+        message: "Grant Entry to user",
+        userData: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

@@ -17,7 +17,14 @@ module.exports = {
       throw new Error(error);
     }
   },
-
+  updateUser: async (userObj) => {
+    try {
+      const user = await Dao.userDao.updateUser(userObj);
+      return user;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   getUserCount: async () => {
     try {
       const count = await Dao.userDao.getUserCount();
