@@ -54,6 +54,7 @@ module.exports = {
                     payment_status: false,
                     userId: User.id,
                     email: email,
+                    user_cnt: user_cnt
                 });
                 
                 return res.status(200).json({
@@ -109,6 +110,13 @@ module.exports = {
 
                         if(api_res.data['status'] === 'captured') {
 
+
+                            let User = await Service.userService.getUser({ email });
+                            User.dataValues['isPaid'] = true;
+                            User.dataValues['allowed_entries'] += order.dataValues['user_cnt'];
+
+                            await Service.userService.updateUser(User.dataValues);
+
                             clearInterval(inverval_timer);
                             
                             return res.status(200).redirect(
@@ -122,7 +130,7 @@ module.exports = {
                         console.log(err);
                     }
     
-                    if(times >= 5)
+                    if(times >= 3)
                     {
                         clearInterval(inverval_timer);
                         

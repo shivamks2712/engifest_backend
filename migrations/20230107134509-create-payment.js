@@ -21,6 +21,9 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
       },
+      user_cnt: {
+        type: Sequelize.DOUBLE,
+      },
       userId: {
         type: Sequelize.UUID,
         allowNull: false,

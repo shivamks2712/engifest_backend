@@ -22,6 +22,9 @@ module.exports = (sequelize, Sequelize) => {
       email: {
         type: Sequelize.STRING,
       },
+      user_cnt: {
+        type: Sequelize.DOUBLE,
+      },
     },
     {
       timestamps: true,
