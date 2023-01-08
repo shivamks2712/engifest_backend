@@ -17,12 +17,7 @@ module.exports = {
   getOrder: async (order) => {
     try {
       const query = {
-        where: order,
-        // include: [
-        //   {
-        //     model: db.participant,
-        //   },
-        // ],
+        where: order
       };
       const newOrder = await db.payment.findOne(query);
       return newOrder;

@@ -2,178 +2,149 @@ const Razorpay = require("razorpay");
 const uniqueId = require("uniqid");
 const { createHmac } = require("crypto");
 const Service = require("../service");
-
 require("dotenv").config();
+const request = require("request");
+const axios = require('axios');
 
 const instance = new Razorpay({
-  key_id: process.env.KEY_ID,
-  key_secret: process.env.KEY_SECRET,
+    key_id: process.env.KEY_ID,
+    key_secret: process.env.KEY_SECRET,
 });
 
 module.exports = {
-  createOrder: async (req, res) => {
-    try {
-      const { user_cnt, email } = req.query;
 
-      if (!user_cnt || user_cnt > 5 || !email) {
-        return res.status(400).send({
-          success: false,
-          message: "Please send valid number of participants",
-        });
-      }
-      const User = await Service.userService.getUser({ email });
-
-      const finalPrice = 1000 * user_cnt;
-
-      const options = {
-        amount: finalPrice * 100, // amount in the smallest currency unit
-        currency: "INR",
-        receipt: uniqueId(),
-      };
-
-      instance.orders.create(options, async function (err, order) {
-        if (err) {
-          return res.status(400).send({
-            success: false,
-            message: "Order not created",
-          });
-        }
-
-        const newOrder = await Service.paymentService.createPaymentOrder({
-          razorpay_order_id: order["id"],
-          payment_status: false,
-          userId: User.id,
-          email: email,
-        });
-
-        return res.status(200).json({
-          ...order,
-          success: true,
-          message: "Order sucessfully created",
-        });
-      });
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({
-        success: false,
-        err: "Server Error",
-      });
-    }
-  },
-
-  paymentCallback: async (req, res) => {
-    const razorpay_order_id = req.body.razorpay_order_id,
-      razorpay_payment_id = req.body.razorpay_payment_id,
-      razorpay_signature = req.body.razorpay_signature;
-    const email = req.query.email,
-      planid = req.query.planid;
-
-    if (!razorpay_order_id || !razorpay_payment_id || !email) {
-      return res.status(400).json({
-        error: "Request Not Complete",
-      });
-    }
-
-    const hash = createHmac("sha256", process.env.KEY_SECRET)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-      .digest("hex");
-
-    if (razorpay_signature === hash) {
-      const payment_data = {
-        email: email,
-        razorpay_order_id: razorpay_order_id,
-        razorpay_payment_id: razorpay_payment_id,
-        payment_status: "pending",
-        // coupon: req.query.coupon
-      };
-
-      try {
-        await razorpayPaymentRef.doc(razorpay_payment_id).set(payment_data);
-
-        // Recurrent Job to check Payment Status every 5 seconds
-
+    createOrder: async (req, res) => {
+        
         try {
-          await request(
-            `https://${process.env.KEY_ID}:${process.env.KEY_SECRET}@api.razorpay.com/v1/payments/${razorpay_payment_id}`,
-            async (error, response, body) => {
-              if (body) {
-                const result = JSON.parse(body);
 
-                if (result.status === "captured") {
-                  razorpayPaymentRef.doc(razorpay_payment_id).update({
-                    payment_status: "captured",
-                  });
+            const {user_cnt, email} = req.query;
 
-                  const plan_detail = await PaymentPlansRef.doc(planid).get();
-                  const planDetail = plan_detail.data();
+            if(!user_cnt || user_cnt > 5 || !email) {
 
-                  const user = await usersRef.where("email", "==", email).get();
-                  const userData = {};
+                return res.status(400).send({
+                    success: false,
+                    message: "Please send valid number of participants",
+                });
+            }
 
-                  user.forEach((user) => {
-                    userData["id"] = user.id;
-                    userData["name"] = user.data().name;
-                    userData["email"] = user.data().email;
-                    userData["phone_no"] = user.data().phone_no;
-                    userData["plans_subscribed"] = user.data().plans_subscribed;
-                    userData["features"] = user.data().features;
-                  });
+            const finalPrice = 1000 * user_cnt;
 
-                  if (!userData["plans_subscribed"])
-                    userData["plans_subscribed"] = {};
-
-                  if (!userData["features"]) userData["features"] = {};
-
-                  const valid_till =
-                    Date.now() + planDetail["Validity"] * 24 * 60 * 60 * 1000;
-
-                  userData["plans_subscribed"][planid] = {
-                    timestamp: valid_till,
-                    date: new Date(valid_till),
-                    payment_id: razorpay_payment_id,
-                  };
-
-                  const featuresList = Object.keys(
-                    paymentPlans[planid]["Features"]
-                  );
-                  featuresList.forEach((feature) => {
-                    if (
-                      userData["features"][feature] &&
-                      userData["features"][feature].timestamp &&
-                      userData["features"][feature].timestamp > valid_till
-                    )
-                      return;
-
-                    userData["features"][feature] = {
-                      timestamp: valid_till,
-                      date: new Date(valid_till),
-                    };
-                  });
-
-                  usersRef.doc(userData["id"]).update({
-                    plans_subscribed: userData["plans_subscribed"],
-                    features: userData["features"],
-                  });
+            const options = {
+        
+                amount: finalPrice * 100, // amount in the smallest currency unit
+                currency: "INR",
+                receipt: uniqueId(),
+            };
+        
+            instance.orders.create(options, async function (err, order) {
+            
+                if(err) {
+                    
+                    return res.status(400).send({
+                        success: false,
+                        message: "Order not created",
+                    });
                 }
 
-                // TODO: Also update the Plan of User Accordingly
-              }
-            }
-          );
+                let User = await Service.userService.getUser({ email });
+                
+                const newOrder = await Service.paymentService.createPaymentOrder({
+
+                    razorpay_order_id: order['id'],
+                    payment_status: false,
+                    userId: User.id,
+                    email: email,
+                });
+                
+                return res.status(200).json({
+                    ...order,
+                    success: true,
+                    message: "Order sucessfully created",
+                });
+            });
+
         } catch (err) {
-          console.log(err);
+
+            console.log(err)
+            return res.status(500).json({
+
+                success: false,
+                err: "Server Error"
+            });
+        }
+    },
+
+    paymentCallback: async (req, res) => {
+    
+        const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body;
+        const email = req.query.email;
+
+        if(!razorpay_order_id || !razorpay_payment_id || !email || !razorpay_signature) {
+            
+            return res.status(400).json({
+                error: 'Request Not Complete'
+            });
         }
 
-        res.redirect(`${process.env.FRONTEND_URL}`);
-      } catch (err) {
-        return res.status(400).json({
-          error: err.message,
-        });
-      }
-    } else {
-      return res.status(400).json({
-        error: "Payment Signature Mismatched",
-      });
+        const hash = createHmac("sha256", process.env.KEY_SECRET)
+                        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+                        .digest("hex");
+
+        if (razorpay_signature === hash) {
+
+            try {
+                
+                const order = await Service.paymentService.getOrder({ razorpay_order_id: razorpay_order_id });
+                console.log(order.dataValues);
+
+                let times = 0;
+                const inverval_timer = setInterval(async () => { 
+
+                    try {
+
+                        times++;
+
+                        const api_res = await axios.get(`https://${process.env.KEY_ID}:${process.env.KEY_SECRET}@api.razorpay.com/v1/payments/${razorpay_payment_id}`);
+                        console.log(api_res.data);
+
+                        if(api_res.data['status'] === 'captured') {
+
+                            clearInterval(inverval_timer);
+                            
+                            return res.status(200).redirect(
+                                `${process.env.FRONTEND_URL}`
+                            );
+                        }
+
+    
+                    } catch (err) {
+                
+                        console.log(err);
+                    }
+    
+                    if(times >= 5)
+                    {
+                        clearInterval(inverval_timer);
+                        
+                        return res.status(400).json({
+                            error: "Payment not captured"
+                        });
+                    }
+
+                }, 10000);
+                
+            } catch (err) {
+
+                return res.status(400).json({
+                    error: err.message
+                });
+            }
+
+        } else {
+
+            return res.status(400).json({
+                error: 'Payment Signature Mismatched'
+            });
+        }
     }
-  },
 };

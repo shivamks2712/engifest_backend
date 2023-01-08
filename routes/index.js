@@ -13,5 +13,6 @@ router.post("/api/participant/create", Controller.participant.addParticipants);
 
 // PAYMENTS API
 router.get("/api/payment/create", Controller.payments.createOrder);
+router.post("/api/payment/callback", Controller.payments.paymentCallback);
 
 module.exports = router;
