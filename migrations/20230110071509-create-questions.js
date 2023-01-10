@@ -2,50 +2,38 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("users", {
+    await queryInterface.createTable("questions", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
         unique: true,
         defaultValue: Sequelize.UUIDV4,
       },
-      name: {
+      question_name: {
         type: Sequelize.STRING,
       },
-      email: {
+      option_1: {
         type: Sequelize.STRING,
       },
-      photo: {
+      option_2: {
         type: Sequelize.STRING,
       },
-      uid: {
+      option_3: {
         type: Sequelize.STRING,
       },
-      access_token: {
+      option_4: {
         type: Sequelize.STRING,
       },
-      ticket_number: {
-        type: Sequelize.STRING,
+      option_1_count: {
+        type: Sequelize.DOUBLE,
       },
-      isDtu: {
-        type: Sequelize.BOOLEAN,
+      option_2_count: {
+        type: Sequelize.DOUBLE,
       },
-      isPaid: {
-        type: Sequelize.BOOLEAN,
+      option_3_count: {
+        type: Sequelize.DOUBLE,
       },
-      isVoted: {
-        type: Sequelize.BOOLEAN,
-      },
-      isEntered: {
-        type: Sequelize.BOOLEAN,
-      },
-      college_name: {
-        type: Sequelize.STRING,
-      },
-      phone_number: {
-        type: Sequelize.STRING,
-      },
-      allowed_entries: {
+      option_4_count: {
         type: Sequelize.DOUBLE,
       },
       createdAt: {
@@ -62,6 +50,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("users");
+    await queryInterface.dropTable("questions");
   },
 };

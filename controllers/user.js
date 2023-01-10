@@ -1,6 +1,5 @@
 const Service = require("../service");
 const Validation = require("../validation");
-const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
@@ -173,6 +172,52 @@ module.exports = {
       return res.status(200).json({
         status: 200,
         message: "Grant Entry to user",
+        userData: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  doVoting: async (req, res, next) => {
+    try {
+      const { error, value } = Validation.user.doVoting(req.body);
+      if (error) {
+        return res.status(400).send({
+          status: 400,
+          message: "Please fill all the details and valid details",
+          data: {},
+        });
+      }
+      const { email, vote } = req.body;
+      const user = await Service.userService.getUser({ email });
+      if (!user) {
+        return res.status(400).send({
+          status: 400,
+          message: "Invalid Email",
+          data: {},
+        });
+      }
+      const question = await Service.questionService.getAllQuestions();
+      if (question.length !== vote.length) {
+        return res.status(400).send({
+          status: 400,
+          message: "Please do all the voting",
+          data: {},
+        });
+      }
+      const isVoted = true;
+      await Promise.all(
+        vote.map(async (element) => {
+          await Service.questionService.incrementCount({
+            id: element.questionId,
+            field: element.option,
+          });
+        })
+      );
+      await Service.userService.updateUser({ id: user.id, isVoted });
+      return res.status(200).json({
+        status: 200,
+        message: "Your Vote is captured successfully",
         userData: user,
       });
     } catch (error) {

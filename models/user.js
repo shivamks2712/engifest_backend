@@ -22,6 +22,10 @@ module.exports = (sequelize, Sequelize) => {
       uid: {
         type: Sequelize.STRING,
       },
+      isVoted: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       access_token: {
         type: Sequelize.STRING,
       },
