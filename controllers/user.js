@@ -16,12 +16,12 @@ module.exports = {
       }
 
       let {
-        access_token,
+        // access_token,
         name,
         email,
         photo,
-        college_name,
-        phone_number,
+        // college_name,
+        // phone_number,
         uid,
       } = req.body;
 
@@ -78,12 +78,12 @@ module.exports = {
       }
 
       const userData = {
-        access_token,
+        // access_token,
         name,
         email,
         photo,
-        college_name,
-        phone_number,
+        // college_name,
+        // phone_number,
         isDtu,
         allowed_entries,
         ticket_number,

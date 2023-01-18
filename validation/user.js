@@ -7,9 +7,9 @@ module.exports = {
       name: Joi.string().trim().min(1).required(),
       uid: Joi.string().min(1).required(),
       photo: Joi.string().trim(),
-      college_name: Joi.string().trim().min(1).required(),
-      access_token: Joi.string().trim().min(1).required(),
-      phone_number: Joi.string().trim(),
+      // college_name: Joi.string().trim().min(1).required(),
+      // access_token: Joi.string().trim().min(1).required(),
+      // phone_number: Joi.string().trim(),
     });
     return Joi.validate(userObj, schema);
   },

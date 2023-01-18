@@ -25,7 +25,7 @@ module.exports = {
         ],
       };
       const user = await db.user.findOne(query);
-      return user.dataValues;
+      return user && user.dataValues ? user.dataValues : null;
     } catch (error) {
       throw new Error(error);
     }
