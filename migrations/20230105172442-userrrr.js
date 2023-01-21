@@ -21,23 +21,16 @@ module.exports = {
       uid: {
         type: Sequelize.STRING,
       },
-      access_token: {
-        type: Sequelize.STRING,
+      isVoted: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       ticket_number: {
         type: Sequelize.STRING,
       },
-      isDtu: {
-        type: Sequelize.BOOLEAN,
-      },
-      isPaid: {
-        type: Sequelize.BOOLEAN,
-      },
-      isVoted: {
-        type: Sequelize.BOOLEAN,
-      },
       isEntered: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       college_name: {
         type: Sequelize.STRING,
@@ -45,8 +38,8 @@ module.exports = {
       phone_number: {
         type: Sequelize.STRING,
       },
-      allowed_entries: {
-        type: Sequelize.DOUBLE,
+      roll_number: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

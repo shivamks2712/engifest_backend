@@ -18,11 +18,6 @@ module.exports = {
     try {
       const query = {
         where: userObj,
-        include: [
-          {
-            model: db.participant,
-          },
-        ],
       };
       const user = await db.user.findOne(query);
       return user && user.dataValues ? user.dataValues : null;

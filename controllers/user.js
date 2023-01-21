@@ -1,17 +1,17 @@
 const Service = require("../service");
 const Validation = require("../validation");
-const QRCode = require("qrcode");
 const jwt = require("jsonwebtoken");
-const client = require('@sendgrid/mail');
-const qr = require('qr-image')
-const AWS = require('aws-sdk')
+const client = require("@sendgrid/mail");
+const qr = require("qr-image");
+const AWS = require("aws-sdk");
+const fs = require("fs");
 
 client.setApiKey(process.env.SENDGRID_API_KEY);
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-})
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 module.exports = {
   createUser: async (req, res, next) => {
@@ -25,19 +25,7 @@ module.exports = {
         });
       }
 
-      let {
-        // access_token,
-        name,
-        email,
-        photo,
-        // college_name,
-        // phone_number,
-        uid,
-      } = req.body;
-
-      let isDtu = false;
-      let allowed_entries = 0;
-      let isPaid = false;
+      let { name, email, photo, uid } = req.body;
 
       const oldUser = await Service.userService.getUser({ email });
 
@@ -56,10 +44,6 @@ module.exports = {
         });
       }
 
-      const participant = await Service.participantService.getParticipant({
-        email,
-      });
-
       const count = await Service.userService.getUserCount();
       let zeroes = "";
       if (count < 10) {
@@ -74,34 +58,17 @@ module.exports = {
         zeroes = "";
       }
 
-      let ticket_number = `ENGI2K23/${zeroes}${count + 1}/00`;
-      if (participant) {
-        ticket_number = participant.ticket_number;
-        isPaid = true;
-      }
-
-      if (email.split("@")[1] === "dtu.ac.in") {
-        isDtu = true;
-        isPaid = true;
-        allowed_entries = 0;
-        college_name = "Delhi Technological University";
-      }
+      let ticket_number = `ENGI2K23/${zeroes}${count + 1}`;
 
       const userData = {
-        // access_token,
         name,
         email,
         photo,
-        // college_name,
-        // phone_number,
-        isDtu,
-        allowed_entries,
         ticket_number,
-        isPaid,
         uid,
       };
 
-      const newUser = await Service.userService.createUser(userData);
+      await Service.userService.createUser(userData);
       const token = jwt.sign(
         {
           ...userData,
@@ -152,11 +119,12 @@ module.exports = {
       }
 
       const token_data = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      const user = await Service.userService.getUser({ id: token_data.id });
 
       return res.status(200).json({
         status: 200,
         message: "User Details fetched successfully",
-        userData: token_data,
+        userData: user,
       });
     } catch (error) {
       next(error);
@@ -233,19 +201,17 @@ module.exports = {
     }
   },
   sendEmail: async (req, res, next) => {
-
     try {
-
       const { email } = req.query;
-      
-      if(!email) {
+
+      if (!email) {
         return res.status(400).json({
           status: 400,
           message: "Invalid user",
           data: [],
         });
       }
-      
+
       const user = await Service.userService.getUser({ email });
       if (!user) {
         return res.status(400).send({
@@ -255,58 +221,61 @@ module.exports = {
         });
       }
 
-      const qr_png = qr.image(JSON.stringify(user.ticket_number), { type: 'png' });
-      qr_png.pipe(require('fs').createWriteStream(`controllers/${user.name.split(' ')[0]}.png`));
-    
-      const filename = `${user.name.split(' ')[0]}.png`
-      const fileContent = require('fs').readFileSync('./controllers/' + filename)
-
-      console.log(filename)
-      const params = {
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `${filename}`,
-        Body: fileContent
-      }
-
-      s3.upload(params, (err, data) => {
-        
-        if (err) {
-          reject(err)
+      const qr_png = qr.image(
+        JSON.stringify(
+          `http://ec2-65-0-133-226.ap-south-1.compute.amazonaws.com/grant/entry/${user.id}`
+        ),
+        {
+          type: "png",
         }
+      );
+      qr_png.pipe(
+        fs
+          .createWriteStream(`controllers/${user.name.split(" ")[0]}.png`)
+          .on("finish", () => {
+            const filename = `${user.name.split(" ")[0]}.png`;
+            const fileContent = fs.readFileSync("./controllers/" + filename);
+            const params = {
+              Bucket: process.env.AWS_BUCKET_NAME,
+              Key: `${filename}`,
+              Body: fileContent,
+            };
+            s3.upload(params, (err, data) => {
+              if (err) {
+                reject(err);
+              }
 
-        require('fs-extra').remove('./controllers/' + filename, () => {})
+              require("fs-extra").remove("./controllers/" + filename, () => {});
 
-        const msg = {
-          // to: email, // Change to your recipient
-          to: 'priyanshu.31082003@gmail.com', // Change to your recipient
-          from: 'team@engifest.in', // Change to your verified sender
-          subject: 'Sending with SendGrid is Fun',
-          text: 'ajjdb',
-          html: `<p>Hi</p><img src='${data.Location}'/>`
-        }
-  
-        client
-          .send(msg)
-          .then((response) => {
-            // console.log(response[0].statusCode)
-            // console.log(response[0].headers)
-            console.log(response)
-            console.log(msg)
+              const msg = {
+                from: "team@engifest.in",
+                to: user.email, // Change to your recipient
+                dynamic_template_data: {
+                  name: user.name,
+                  qr_code: data.Location,
+                  ticket_number: user.ticket_number,
+                },
+                templateId: "d-ed93b86ed8cc4e74ae9956fcb2ae74c0",
+              };
+              console.log(msg);
+              client
+                .send(msg)
+                .then((response) => {
+                  console.log(response);
+                })
+                .catch((error) => {
+                  console.log(error.response.body);
+                });
+            });
           })
-          .catch((error) => {
-            console.error(error)
-          })
-
-      })
-
+      );
 
       return res.status(200).json({
         status: 200,
-        message: "Email Send"
+        message: "Email Send",
       });
-      
     } catch (error) {
       next(error);
     }
-  }
+  },
 };

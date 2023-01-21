@@ -26,21 +26,12 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
-      access_token: {
-        type: Sequelize.STRING,
-      },
       ticket_number: {
         type: Sequelize.STRING,
-      },
-      isDtu: {
-        type: Sequelize.BOOLEAN,
       },
       isEntered: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
-      },
-      isPaid: {
-        type: Sequelize.BOOLEAN,
       },
       college_name: {
         type: Sequelize.STRING,
@@ -48,8 +39,8 @@ module.exports = (sequelize, Sequelize) => {
       phone_number: {
         type: Sequelize.STRING,
       },
-      allowed_entries: {
-        type: Sequelize.DOUBLE,
+      roll_number: {
+        type: Sequelize.STRING,
       },
     },
     {
@@ -57,10 +48,5 @@ module.exports = (sequelize, Sequelize) => {
       paranoid: true,
     }
   );
-  user.associate = (models) => {
-    models.user.hasMany(models.participant);
-    models.user.hasMany(models.payment);
-  };
-
   return user;
 };

@@ -8,13 +8,6 @@ router.post("/api/user/vote", Controller.user.doVoting);
 router.get("/api/user/decodetoken", Controller.user.decodeToken);
 router.get("/api/user/get", Controller.user.getUser);
 router.get("/grant/entry/:id", Controller.user.grantEntry);
-router.get("/api/user/sendemail", Controller.user.sendEmail);
 
-// PARTICIPANTS API
-router.post("/api/participant/create", Controller.participant.addParticipants);
-
-// PAYMENTS API
-router.get("/api/payment/create", Controller.payments.createOrder);
-router.post("/api/payment/callback", Controller.payments.paymentCallback);
 
 module.exports = router;
