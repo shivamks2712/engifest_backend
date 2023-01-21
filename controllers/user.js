@@ -1,7 +1,17 @@
 const Service = require("../service");
 const Validation = require("../validation");
-
+const QRCode = require("qrcode");
 const jwt = require("jsonwebtoken");
+const client = require('@sendgrid/mail');
+const qr = require('qr-image')
+const AWS = require('aws-sdk')
+
+client.setApiKey(process.env.SENDGRID_API_KEY);
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+})
 
 module.exports = {
   createUser: async (req, res, next) => {
@@ -134,8 +144,6 @@ module.exports = {
     try {
       const { token } = req.query;
 
-      console.log(token);
-
       if (!token) {
         return res.status(400).json({
           success: false,
@@ -224,4 +232,81 @@ module.exports = {
       next(error);
     }
   },
+  sendEmail: async (req, res, next) => {
+
+    try {
+
+      const { email } = req.query;
+      
+      if(!email) {
+        return res.status(400).json({
+          status: 400,
+          message: "Invalid user",
+          data: [],
+        });
+      }
+      
+      const user = await Service.userService.getUser({ email });
+      if (!user) {
+        return res.status(400).send({
+          status: 400,
+          message: "Invalid User",
+          data: {},
+        });
+      }
+
+      const qr_png = qr.image(JSON.stringify(user.ticket_number), { type: 'png' });
+      qr_png.pipe(require('fs').createWriteStream(`controllers/${user.name.split(' ')[0]}.png`));
+    
+      const filename = `${user.name.split(' ')[0]}.png`
+      const fileContent = require('fs').readFileSync('./controllers/' + filename)
+
+      console.log(filename)
+      const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: `${filename}`,
+        Body: fileContent
+      }
+
+      s3.upload(params, (err, data) => {
+        
+        if (err) {
+          reject(err)
+        }
+
+        require('fs-extra').remove('./controllers/' + filename, () => {})
+
+        const msg = {
+          // to: email, // Change to your recipient
+          to: 'priyanshu.31082003@gmail.com', // Change to your recipient
+          from: 'team@engifest.in', // Change to your verified sender
+          subject: 'Sending with SendGrid is Fun',
+          text: 'ajjdb',
+          html: `<p>Hi</p><img src='${data.Location}'/>`
+        }
+  
+        client
+          .send(msg)
+          .then((response) => {
+            // console.log(response[0].statusCode)
+            // console.log(response[0].headers)
+            console.log(response)
+            console.log(msg)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+
+      })
+
+
+      return res.status(200).json({
+        status: 200,
+        message: "Email Send"
+      });
+      
+    } catch (error) {
+      next(error);
+    }
+  }
 };
