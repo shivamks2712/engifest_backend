@@ -1,0 +1,217 @@
+[debug] [2023-01-26T09:01:30.002Z] ----------------------------------------------------------------------
+[debug] [2023-01-26T09:01:30.003Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy --only functions
+[debug] [2023-01-26T09:01:30.003Z] CLI Version:   11.16.0
+[debug] [2023-01-26T09:01:30.003Z] Platform:      darwin
+[debug] [2023-01-26T09:01:30.003Z] Node Version:  v18.12.1
+[debug] [2023-01-26T09:01:30.004Z] Time:          Thu Jan 26 2023 14:31:30 GMT+0530 (India Standard Time)
+[debug] [2023-01-26T09:01:30.004Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-26T09:01:30.037Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-26T09:01:30.037Z] > authorizing via signed-in user (priyanshu.31082003@gmail.com)
+[debug] [2023-01-26T09:01:30.037Z] [iam] checking project cultural-council for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2023-01-26T09:01:30.038Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions [none]
+[debug] [2023-01-26T09:01:30.038Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:01:30.038Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-01-26T09:01:31.772Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions 200
+[debug] [2023-01-26T09:01:31.773Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-01-26T09:01:31.773Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2023-01-26T09:01:31.773Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2023-01-26T09:01:33.426Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2023-01-26T09:01:33.426Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'cultural-council'...
+[info] 
+[info] i  deploying functions 
+[debug] [2023-01-26T09:01:33.432Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council [none]
+[debug] [2023-01-26T09:01:34.234Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council 200
+[debug] [2023-01-26T09:01:34.234Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council {"projectId":"cultural-council","projectNumber":"638478330287","displayName":"Cultural-Council","name":"projects/cultural-council","resources":{"hostingSite":"cultural-council"},"state":"ACTIVE","etag":"1_29a9ff4c-b194-4ac6-90f2-d4cdec35b01b"}
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2023-01-26T09:01:34.237Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-01-26T09:01:34.237Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:01:34.240Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/runtimeconfig.googleapis.com [none]
+[debug] [2023-01-26T09:01:34.240Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:01:34.241Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudbuild.googleapis.com [none]
+[debug] [2023-01-26T09:01:34.241Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudbuild.googleapis.com x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:01:34.242Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/artifactregistry.googleapis.com [none]
+[debug] [2023-01-26T09:01:34.242Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/artifactregistry.googleapis.com x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:01:36.185Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/artifactregistry.googleapis.com 200
+[debug] [2023-01-26T09:01:36.185Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/artifactregistry.googleapis.com [omitted]
+[info] ✔  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2023-01-26T09:01:36.186Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudbuild.googleapis.com 200
+[debug] [2023-01-26T09:01:36.187Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudbuild.googleapis.com [omitted]
+[info] ✔  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2023-01-26T09:01:36.188Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudfunctions.googleapis.com 200
+[debug] [2023-01-26T09:01:36.188Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudfunctions.googleapis.com [omitted]
+[info] ✔  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2023-01-26T09:01:36.188Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/runtimeconfig.googleapis.com 200
+[debug] [2023-01-26T09:01:36.189Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2023-01-26T09:01:36.189Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council/adminSdkConfig [none]
+[debug] [2023-01-26T09:01:36.892Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council/adminSdkConfig 200
+[debug] [2023-01-26T09:01:36.892Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council/adminSdkConfig {"projectId":"cultural-council","storageBucket":"cultural-council.appspot.com"}
+[debug] [2023-01-26T09:01:36.893Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/cultural-council/configs [none]
+[debug] [2023-01-26T09:01:37.720Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/cultural-council/configs 200
+[debug] [2023-01-26T09:01:37.720Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/cultural-council/configs {}
+[info] i  functions: preparing codebase default for deployment 
+[debug] [2023-01-26T09:01:37.723Z] Validating nodejs source
+[debug] [2023-01-26T09:01:37.947Z] checkFunctionsSDKVersion encountered error:Invalid Version:  {}
+[debug] [2023-01-26T09:01:37.948Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2023-01-26T09:01:37.948Z] Building nodejs source
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-01-26T09:01:38.354Z] Could not parse firebase-functions version '' into semver. Falling back to parseTriggers.
+[error] 
+[error] Error: There was an unknown problem while trying to parse function triggers.
+[debug] [2023-01-26T09:17:06.891Z] ----------------------------------------------------------------------
+[debug] [2023-01-26T09:17:06.892Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy --only functions
+[debug] [2023-01-26T09:17:06.893Z] CLI Version:   11.16.0
+[debug] [2023-01-26T09:17:06.893Z] Platform:      darwin
+[debug] [2023-01-26T09:17:06.893Z] Node Version:  v18.12.1
+[debug] [2023-01-26T09:17:06.893Z] Time:          Thu Jan 26 2023 14:47:06 GMT+0530 (India Standard Time)
+[debug] [2023-01-26T09:17:06.894Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-26T09:17:06.927Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-26T09:17:06.927Z] > authorizing via signed-in user (priyanshu.31082003@gmail.com)
+[debug] [2023-01-26T09:17:06.927Z] [iam] checking project cultural-council for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2023-01-26T09:17:06.928Z] > refreshing access token with scopes: []
+[debug] [2023-01-26T09:17:06.928Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-01-26T09:17:06.928Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-01-26T09:17:07.160Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-01-26T09:17:07.161Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-01-26T09:17:07.172Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions [none]
+[debug] [2023-01-26T09:17:07.172Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:17:07.172Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-01-26T09:17:08.802Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions 200
+[debug] [2023-01-26T09:17:08.802Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-01-26T09:17:08.803Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2023-01-26T09:17:08.803Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2023-01-26T09:17:10.468Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2023-01-26T09:17:10.469Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'cultural-council'...
+[info] 
+[info] i  deploying functions 
+[debug] [2023-01-26T09:17:10.474Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council [none]
+[debug] [2023-01-26T09:17:11.007Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council 200
+[debug] [2023-01-26T09:17:11.007Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council {"projectId":"cultural-council","projectNumber":"638478330287","displayName":"Cultural-Council","name":"projects/cultural-council","resources":{"hostingSite":"cultural-council"},"state":"ACTIVE","etag":"1_740d6fc4-b6c8-4980-a6c1-a9e5d257508a"}
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2023-01-26T09:17:11.009Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-01-26T09:17:11.009Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:17:11.011Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/runtimeconfig.googleapis.com [none]
+[debug] [2023-01-26T09:17:11.012Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:17:11.013Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudbuild.googleapis.com [none]
+[debug] [2023-01-26T09:17:11.013Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudbuild.googleapis.com x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:17:11.014Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/artifactregistry.googleapis.com [none]
+[debug] [2023-01-26T09:17:11.014Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/artifactregistry.googleapis.com x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T09:17:13.028Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudbuild.googleapis.com 200
+[debug] [2023-01-26T09:17:13.028Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudbuild.googleapis.com [omitted]
+[info] ✔  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2023-01-26T09:17:13.050Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/artifactregistry.googleapis.com 200
+[debug] [2023-01-26T09:17:13.050Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/artifactregistry.googleapis.com [omitted]
+[info] ✔  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2023-01-26T09:17:13.054Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/runtimeconfig.googleapis.com 200
+[debug] [2023-01-26T09:17:13.054Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2023-01-26T09:17:13.068Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudfunctions.googleapis.com 200
+[debug] [2023-01-26T09:17:13.068Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/cultural-council/services/cloudfunctions.googleapis.com [omitted]
+[info] ✔  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2023-01-26T09:17:13.068Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council/adminSdkConfig [none]
+[debug] [2023-01-26T09:17:13.522Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council/adminSdkConfig 200
+[debug] [2023-01-26T09:17:13.523Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cultural-council/adminSdkConfig {"projectId":"cultural-council","storageBucket":"cultural-council.appspot.com"}
+[debug] [2023-01-26T09:17:13.524Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/cultural-council/configs [none]
+[debug] [2023-01-26T09:17:14.133Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/cultural-council/configs 200
+[debug] [2023-01-26T09:17:14.134Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/cultural-council/configs {}
+[info] i  functions: preparing codebase default for deployment 
+[debug] [2023-01-26T09:17:14.136Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2023-01-26T09:17:14.899Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0",
+    "@sendgrid/mail": "^7.7.0",
+    "aws-sdk": "^2.1299.0",
+    "axios": "^1.2.2",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "fs-extra": "^11.1.0",
+    "glob": "^8.0.3",
+    "joi": "14.3.1",
+    "jsonwebtoken": "^9.0.0",
+    "node-cron": "^3.0.2",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "qr-image": "^3.2.0",
+    "qrcode": "^1.5.1",
+    "razorpay": "^2.8.4",
+    "request": "^2.88.2",
+    "sendgrid": "^5.2.3",
+    "sequelize": "^6.28.0",
+    "uniqid": "^5.4.0",
+    "uuid": "^3.3.3",
+    "winston": "^3.8.2",
+    "winston-syslog": "^2.7.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0",
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.5.2"
+  },
+  "private": true
+}
+[debug] [2023-01-26T09:17:14.899Z] Building nodejs source
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-01-26T09:17:14.901Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-01-26T09:17:15.001Z] Serving at port 9005
+
+[debug] [2023-01-26T09:17:15.400Z] FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED ::1:9005
+    at ClientRequest.<anonymous> (/usr/local/lib/node_modules/firebase-tools/node_modules/node-fetch/lib/index.js:1491:11)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:494:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:151:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:116:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+[error] 
+[error] Error: An unexpected error has occurred.
