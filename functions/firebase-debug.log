@@ -1,0 +1,18 @@
+[debug] [2023-01-26T10:40:17.858Z] ----------------------------------------------------------------------
+[debug] [2023-01-26T10:40:17.859Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2023-01-26T10:40:17.860Z] CLI Version:   11.16.0
+[debug] [2023-01-26T10:40:17.860Z] Platform:      darwin
+[debug] [2023-01-26T10:40:17.860Z] Node Version:  v18.12.1
+[debug] [2023-01-26T10:40:17.861Z] Time:          Thu Jan 26 2023 16:10:17 GMT+0530 (India Standard Time)
+[debug] [2023-01-26T10:40:17.861Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-26T10:40:17.895Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-26T10:40:17.895Z] > authorizing via signed-in user (priyanshu.31082003@gmail.com)
+[debug] [2023-01-26T10:40:17.895Z] [iam] checking project cultural-council for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2023-01-26T10:40:17.896Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions [none]
+[debug] [2023-01-26T10:40:17.896Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions x-goog-quota-user=projects/cultural-council
+[debug] [2023-01-26T10:40:17.896Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-01-26T10:40:19.583Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions 200
+[debug] [2023-01-26T10:40:19.584Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cultural-council:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-01-26T10:40:19.584Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2023-01-26T10:40:19.584Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/cultural-council/serviceAccounts/cultural-council@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}

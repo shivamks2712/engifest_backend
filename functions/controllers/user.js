@@ -119,7 +119,7 @@ module.exports = {
       }
 
       const token_data = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      const user = await Service.userService.getUser({ id: token_data.id });
+      const user = await Service.userService.getUser({ email: token_data.email });
 
       return res.status(200).json({
         status: 200,
