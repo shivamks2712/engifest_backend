@@ -270,6 +270,10 @@ module.exports = {
                     phone_number: phone,
                   });
                 })
+                return res.status(200).json({
+                  status: 200,
+                  message: "Email Send",
+                });
                 .catch((error) => {
                   return res.status(400).json({ message: "Unexpedted Issue" });
                 });
@@ -277,10 +281,7 @@ module.exports = {
           })
       );
 
-      return res.status(200).json({
-        status: 200,
-        message: "Email Send",
-      });
+    
     } catch (error) {
       next(error);
     }
