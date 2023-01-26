@@ -202,17 +202,22 @@ module.exports = {
   },
   sendEmail: async (req, res, next) => {
     try {
-      const { email } = req.query;
-
-      if (!email) {
-        return res.status(400).json({
+      const { college, id, roll, phone } = req.body;
+      if (!college || !id || !roll || !phone) {
+        return res.status(400).send({
           status: 400,
-          message: "Invalid user",
-          data: [],
+          message: "Please send all the details",
+          data: {},
         });
       }
 
-      const user = await Service.userService.getUser({ email });
+      await Service.userService.updateUser({
+        id,
+        college_name: college,
+        roll_number: roll,
+        phone_number: phone,
+      });
+      const user = await Service.userService.getUser({ id });
       if (!user) {
         return res.status(400).send({
           status: 400,
@@ -221,19 +226,20 @@ module.exports = {
         });
       }
 
+      const ticket = user.ticket_number.split("/");
+      const newTicket = `${ticket[0]}${ticket[1]}`;
+
       const qr_png = qr.image(
-        JSON.stringify(
-          `http://ec2-65-0-133-226.ap-south-1.compute.amazonaws.com/grant/entry/${user.id}`
-        ),
+        JSON.stringify(`${process.env.BACKEND_URL}/grant/entry/${user.id}`),
         {
           type: "png",
         }
       );
       qr_png.pipe(
         fs
-          .createWriteStream(`controllers/${user.name.split(" ")[0]}.png`)
+          .createWriteStream(`controllers/${newTicket}.png`)
           .on("finish", () => {
-            const filename = `${user.name.split(" ")[0]}.png`;
+            const filename = `${newTicket}.png`;
             const fileContent = fs.readFileSync("./controllers/" + filename);
             const params = {
               Bucket: process.env.AWS_BUCKET_NAME,
@@ -244,6 +250,7 @@ module.exports = {
               if (err) {
                 reject(err);
               }
+              console.log(data.Location);
 
               require("fs-extra").remove("./controllers/" + filename, () => {});
 
@@ -257,7 +264,7 @@ module.exports = {
                 },
                 templateId: "d-ed93b86ed8cc4e74ae9956fcb2ae74c0",
               };
-              console.log(msg);
+
               client
                 .send(msg)
                 .then((response) => {
