@@ -2,7 +2,8 @@
   "projects": {
     "default": "cultural-council",
     "backend host": "cultural-council",
-    "backend-host": "cultural-council"
+    "backend-host": "cultural-council",
+    "host": "cultural-council"
   },
   "targets": {},
   "etags": {}
