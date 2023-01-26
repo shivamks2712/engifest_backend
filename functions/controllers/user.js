@@ -119,7 +119,9 @@ module.exports = {
       }
 
       const token_data = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      const user = await Service.userService.getUser({ email: token_data.email });
+      const user = await Service.userService.getUser({
+        email: token_data.email,
+      });
 
       return res.status(200).json({
         status: 200,
@@ -230,7 +232,7 @@ module.exports = {
       const newTicket = `${ticket[0]}${ticket[1]}`;
 
       const qr_png = qr.image(
-        JSON.stringify(`${process.env.BACKEND_URL}/grant/entry/${user.id}`),
+        JSON.stringify(`https://engifest.in/grant/entry/${user.id}`),
         {
           type: "png",
         }
@@ -250,7 +252,6 @@ module.exports = {
               if (err) {
                 reject(err);
               }
-              console.log(data.Location);
 
               require("fs-extra").remove("./controllers/" + filename, () => {});
 
@@ -271,7 +272,7 @@ module.exports = {
                   console.log(response);
                 })
                 .catch((error) => {
-                  console.log(error.response.body);
+                  return res.status(400).json({ message: "Unexpedted Issue" });
                 });
             });
           })
