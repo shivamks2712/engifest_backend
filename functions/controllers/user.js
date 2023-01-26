@@ -213,12 +213,6 @@ module.exports = {
         });
       }
 
-      await Service.userService.updateUser({
-        id,
-        college_name: college,
-        roll_number: roll,
-        phone_number: phone,
-      });
       const user = await Service.userService.getUser({ id });
       if (!user) {
         return res.status(400).send({
@@ -269,7 +263,12 @@ module.exports = {
               client
                 .send(msg)
                 .then((response) => {
-                  console.log(response);
+                  Service.userService.updateUser({
+                    id,
+                    college_name: college,
+                    roll_number: roll,
+                    phone_number: phone,
+                  });
                 })
                 .catch((error) => {
                   return res.status(400).json({ message: "Unexpedted Issue" });
