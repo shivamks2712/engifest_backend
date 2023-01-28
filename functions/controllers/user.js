@@ -256,6 +256,11 @@ module.exports = {
                   name: user.name,
                   qr_code: data.Location,
                   ticket_number: user.ticket_number,
+                  Sender_Name: "Team Engifest",
+                  Sender_Address: "Delhi Technological University",
+                  Sender_City: "Rohini",
+                  Sender_State: "Delhi",
+                  Sender_Zip: "110042",
                 },
                 templateId: "d-ed93b86ed8cc4e74ae9956fcb2ae74c0",
               };
@@ -269,19 +274,17 @@ module.exports = {
                     roll_number: roll,
                     phone_number: phone,
                   });
+                  return res.status(200).json({
+                    status: 200,
+                    message: "Email Send",
+                  });
                 })
-                return res.status(200).json({
-                  status: 200,
-                  message: "Email Send",
-                });
                 .catch((error) => {
                   return res.status(400).json({ message: "Unexpedted Issue" });
                 });
             });
           })
       );
-
-    
     } catch (error) {
       next(error);
     }
