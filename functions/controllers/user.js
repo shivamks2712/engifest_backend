@@ -274,18 +274,10 @@ module.exports = {
                     roll_number: roll,
                     phone_number: phone,
                   });
-<<<<<<< HEAD
-=======
-
->>>>>>> 1b01c11 (.)
                   return res.status(200).json({
                     status: 200,
                     message: "Email Send",
                   });
-<<<<<<< HEAD
-=======
-
->>>>>>> 1b01c11 (.)
                 })
                 .catch((error) => {
                   return res.status(400).json({ message: "Unexpedted Issue" });
@@ -293,10 +285,6 @@ module.exports = {
             });
           })
       );
-<<<<<<< HEAD
-=======
-
->>>>>>> 1b01c11 (.)
     } catch (error) {
       next(error);
     }
