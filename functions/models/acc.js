@@ -11,6 +11,9 @@ module.exports = (sequelize, Sequelize) => {
       checkin: {
         type: Sequelize.STRING,
       },
+      phone: {
+        type: Sequelize.STRING,
+      },
       checkout: {
         type: Sequelize.STRING,
       },

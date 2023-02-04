@@ -2,7 +2,7 @@ const Service = require("../service");
 module.exports = {
   accCreate: async (req, res, next) => {
     try {
-      const { checkin, checkout, femaleArr, maleArr } = req.body;
+      const { checkin, checkout, femaleArr, maleArr, phone } = req.body;
       if (!checkin || !checkout) {
         return res.status(400).json({ message: "Please send all the details" });
       }
@@ -11,6 +11,7 @@ module.exports = {
         checkout,
         maleCount: maleArr && maleArr.length ? maleArr.length : 0,
         femaleCount: femaleArr && femaleArr.length ? femaleArr.length : 0,
+        phone,
       };
       const newAcc = await Service.accService.add(obj);
       if (femaleArr && femaleArr.length > 0) {
