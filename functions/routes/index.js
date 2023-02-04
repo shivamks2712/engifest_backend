@@ -12,7 +12,6 @@ router.get("/api/user/get", Controller.user.getUser);
 router.get("/grant/entry/:id", Controller.user.grantEntry);
 
 //ACC API
-
 router.post("/api/accommodation/create", Controller.acc.accCreate);
 
 module.exports = router;

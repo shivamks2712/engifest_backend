@@ -25,7 +25,7 @@ module.exports = {
               dob: arr.dob,
               accId: newAcc.id,
             };
-            Service.accDetailService.add(obj);
+            Service.accDetailService.add(ada);
           })
         );
       }
@@ -41,7 +41,7 @@ module.exports = {
               dob: arr.dob,
               accId: newAcc.id,
             };
-            Service.accDetailService.add(obj);
+            Service.accDetailService.add(ada);
           })
         );
       }
