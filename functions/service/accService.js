@@ -9,4 +9,12 @@ module.exports = {
       throw new Error(error);
     }
   },
+  getAll: async () => {
+    try {
+      const acc = await Dao.accDao.getAll();
+      return acc;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };

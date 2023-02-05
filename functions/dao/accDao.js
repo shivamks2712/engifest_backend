@@ -14,4 +14,19 @@ module.exports = {
       throw new Error(error);
     }
   },
+  getAll: async () => {
+    try {
+      const query = {
+        include: [
+          {
+            model: db.accDetail,
+          },
+        ],
+      };
+      const getAll = await db.acc.findAll(query);
+      return getAll;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };

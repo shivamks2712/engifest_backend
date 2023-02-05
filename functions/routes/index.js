@@ -13,5 +13,6 @@ router.get("/grant/entry/:id", Controller.user.grantEntry);
 
 //ACC API
 router.post("/api/accommodation/create", Controller.acc.accCreate);
+router.get("/api/acc/get/data", Controller.acc.getAll);
 
 module.exports = router;
