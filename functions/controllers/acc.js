@@ -68,12 +68,6 @@ module.exports = {
       client
         .send(msg)
         .then((response) => {
-          Service.userService.updateUser({
-            id,
-            college_name: college,
-            roll_number: roll,
-            phone_number: phone,
-          });
           return res.status(200).json({
             message: "Details are shared with the hospitality name",
           });
