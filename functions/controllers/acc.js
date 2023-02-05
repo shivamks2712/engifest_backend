@@ -56,7 +56,7 @@ module.exports = {
         dynamic_template_data: {
           name: user.name,
           male_count: maleArr && maleArr.length ? maleArr.length : 0,
-          femaile_count: femaleArr && femaleArr.length ? femaleArr.length : 0,
+          female_count: femaleArr && femaleArr.length ? femaleArr.length : 0,
           Sender_Name: "Team Hospitality, Engifest",
           Sender_Address: "Delhi Technological University",
           Sender_City: "Rohini",
