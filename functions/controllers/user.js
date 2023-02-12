@@ -282,7 +282,6 @@ module.exports = {
                   });
                 })
                 .catch((error) => {
-                  
                   return res.status(400).json({ message: "Unexpedted Issue" });
                 });
             });
@@ -294,11 +293,9 @@ module.exports = {
   },
 
   readQr: async (req, res) => {
-
     try {
-
       const { id } = req.query;
-  
+
       if (!id) {
         return res.status(400).json({
           status: 400,
@@ -306,49 +303,72 @@ module.exports = {
           data: [],
         });
       }
-  
-      jimp.read(req.body, async function(err, image) {
+
+      jimp.read(req.body, async function (err, image) {
+        if (err) {
+          console.error(err);
+        }
+
+        let qrcode = new qrCodeReader();
+        qrcode.callback = async function (err, value) {
           if (err) {
-              console.error(err);
+            console.error(err);
           }
-
-          let qrcode = new qrCodeReader();
-          qrcode.callback = async function(err, value) {
-            if (err) {
-                console.error(err);
-            }
-
-            const user = await Service.userService.getUser({ 
-              token : value.result
-            });
-
-            if (user) {
-
-              return res.status(400).json({
-                status: 400,
-                message: "User already registered with App",
-                data: {},
-              });
-            }
-
-            await Service.userService.updateUser({
-              id: id,
-              token: value.result
-            });
-
-            return res.status(200).send({
-              status: 200,
-              message: "Token successfully updated",
+          const token = value.result;
+          if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(token)) {
+            return res.status(400).json({
+              status: 400,
+              message: "User already registered with App",
               data: {},
             });
-          };
-          
-          qrcode.decode(image.bitmap);
-      });
-       
-    } catch (error) {
+          }
+          if (
+            /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
+              token
+            )
+          ) {
+            return res.status(400).json({
+              status: 400,
+              message: "User already registered with App",
+              data: {},
+            });
+          }
+          if (token.length > 10) {
+            return res.status(400).json({
+              status: 400,
+              message: "User already registered with App",
+              data: {},
+            });
+          }
 
+          const user = await Service.userService.getUser({
+            token: value.result,
+          });
+
+          if (user) {
+            return res.status(400).json({
+              status: 400,
+              message: "User already registered with App",
+              data: {},
+            });
+          }
+
+          await Service.userService.updateUser({
+            id: id,
+            token: value.result,
+          });
+
+          return res.status(200).send({
+            status: 200,
+            message: "Token successfully updated",
+            data: {},
+          });
+        };
+
+        qrcode.decode(image.bitmap);
+      });
+    } catch (error) {
       next(error);
     }
-  }
+  },
 };
