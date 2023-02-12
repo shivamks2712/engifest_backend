@@ -224,6 +224,16 @@ module.exports = {
         });
       }
 
+      const phoneuser = await Service.userService.getUser({ phone });
+
+      if (phoneuser) {
+        return res.status(400).send({
+          status: 400,
+          message: "User Mobile Already Registered",
+          data: {},
+        });
+      }
+
       const ticket = user.ticket_number.split("/");
       const newTicket = `${ticket[0]}${ticket[1]}`;
 
