@@ -42,6 +42,9 @@ module.exports = (sequelize, Sequelize) => {
       roll_number: {
         type: Sequelize.STRING,
       },
+      token: {
+        type: Sequelize.STRING,
+      }
     },
     {
       timestamps: true,

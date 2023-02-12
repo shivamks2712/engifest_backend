@@ -5,6 +5,8 @@ const client = require("@sendgrid/mail");
 const qr = require("qr-image");
 const AWS = require("aws-sdk");
 const fs = require("fs");
+const jimp = require("jimp");
+const qrCodeReader = require("qrcode-reader");
 
 client.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -280,6 +282,7 @@ module.exports = {
                   });
                 })
                 .catch((error) => {
+                  
                   return res.status(400).json({ message: "Unexpedted Issue" });
                 });
             });
@@ -289,4 +292,63 @@ module.exports = {
       next(error);
     }
   },
+
+  readQr: async (req, res) => {
+
+    try {
+
+      const { id } = req.query;
+  
+      if (!id) {
+        return res.status(400).json({
+          status: 400,
+          message: "Invalid User",
+          data: [],
+        });
+      }
+  
+      jimp.read(req.body, async function(err, image) {
+          if (err) {
+              console.error(err);
+          }
+
+          let qrcode = new qrCodeReader();
+          qrcode.callback = async function(err, value) {
+            if (err) {
+                console.error(err);
+            }
+
+            const user = await Service.userService.getUser({ 
+              token : value.result
+            });
+
+            if (user) {
+
+              return res.status(400).json({
+                status: 400,
+                message: "User already registered with App",
+                data: {},
+              });
+            }
+
+            await Service.userService.updateUser({
+              id: id,
+              token: value.result
+            });
+
+            return res.status(200).send({
+              status: 200,
+              message: "Token successfully updated",
+              data: {},
+            });
+          };
+          
+          qrcode.decode(image.bitmap);
+      });
+       
+    } catch (error) {
+
+      next(error);
+    }
+  }
 };

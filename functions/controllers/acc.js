@@ -73,7 +73,8 @@ module.exports = {
           });
         })
         .catch((error) => {
-          return res.status(400).json({ message: "Unexpedted Issue" });
+          console.log(error.response.body)
+          return res.status(200).json({ message: "Unexpedted Issue" });
         });
     } catch (error) {
       next(error);
