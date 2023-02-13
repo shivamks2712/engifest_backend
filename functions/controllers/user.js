@@ -224,7 +224,7 @@ module.exports = {
         });
       }
 
-      const phoneuser = await Service.userService.getUser({ phone });
+      const phoneuser = await Service.userService.getUser({ phone_number: phone });
 
       if (phoneuser) {
         return res.status(400).send({
@@ -316,22 +316,29 @@ module.exports = {
 
       jimp.read(req.body, async function (err, image) {
         if (err) {
-          console.error(err);
+          console.log(err)
+          return res.status(400).json({
+            status: 400,
+          });
         }
 
         let qrcode = new qrCodeReader();
         qrcode.callback = async function (err, value) {
+          
           if (err) {
-            console.error(err);
+            console.log(err)
+            return res.status(400).json({
+              status: 400,
+            });
           }
+
           const token = value.result;
           if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(token)) {
             return res.status(400).json({
               status: 400,
-              message: "User already registered with App",
-              data: {},
             });
           }
+          
           if (
             /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
               token
@@ -339,15 +346,12 @@ module.exports = {
           ) {
             return res.status(400).json({
               status: 400,
-              message: "User already registered with App",
-              data: {},
             });
           }
+          
           if (token.length > 10) {
             return res.status(400).json({
               status: 400,
-              message: "User already registered with App",
-              data: {},
             });
           }
 
@@ -358,8 +362,6 @@ module.exports = {
           if (user) {
             return res.status(400).json({
               status: 400,
-              message: "User already registered with App",
-              data: {},
             });
           }
 
@@ -370,8 +372,6 @@ module.exports = {
 
           return res.status(200).send({
             status: 200,
-            message: "Token successfully updated",
-            data: {},
           });
         };
 
