@@ -12,6 +12,7 @@ router.get("/api/user/get", Controller.user.getUser);
 router.post("/api/user/readqr", Controller.user.readQr);
 router.get("/grant/entry/:id", Controller.user.grantEntry);
 router.post("/api/user/sendcustomemail", Controller.user.sendCustomEmail);
+router.post("/api/user/updategender", Controller.user.updateGender);
 
 //ACC API
 router.post("/api/accommodation/create", Controller.acc.accCreate);

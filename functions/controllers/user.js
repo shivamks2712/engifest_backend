@@ -418,5 +418,43 @@ module.exports = {
 
       next(error);
     }
+  },
+  updateGender: async (req, res, next) => {
+
+    try {
+
+      const {email, gender} = req.body;
+      if(!email || !gender) {
+
+        return res.status(400).json({
+          status: 400,
+          message: "Invalid User",
+          data: [],
+        });
+      }
+
+      const user = await Service.userService.getUser({ email });
+      if (!user) {
+        return res.status(400).send({
+          status: 400,
+          message: "Invalid Email",
+          data: {},
+        });
+      }
+
+      await Service.userService.updateUser({
+        id: user.id,
+        gender: gender,
+      });
+
+      return res.status(200).json({
+        status: 200,
+        message: "Gender updated sucessfully!!"
+      }); 
+
+    } catch (error) {
+
+      next(error);
+    }
   }
 };

@@ -44,6 +44,9 @@ module.exports = (sequelize, Sequelize) => {
       },
       token: {
         type: Sequelize.STRING,
+      },
+      gender: {
+        type: Sequelize.STRING,
       }
     },
     {
