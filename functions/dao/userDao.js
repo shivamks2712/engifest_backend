@@ -1,5 +1,6 @@
 const Common = require("../common");
 const db = require("../models");
+const { QueryTypes, Op } = require("sequelize");
 
 module.exports = {
   createUser: async (userObj) => {
@@ -29,6 +30,20 @@ module.exports = {
     try {
       const user = await db.user.findAll();
       return user.length;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  getAllUsers: async () => {
+    try {
+      const sql = 'select email, name from users where token is null;'
+
+      const data = await db.sequelize.query(sql, {
+        type: QueryTypes.SELECT,
+      });
+
+      // const user = await db.user.findAll();
+      return data;
     } catch (error) {
       throw new Error(error);
     }

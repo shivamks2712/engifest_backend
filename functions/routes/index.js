@@ -11,6 +11,7 @@ router.get("/api/user/sendemail", Controller.user.sendEmail);
 router.get("/api/user/get", Controller.user.getUser);
 router.post("/api/user/readqr", Controller.user.readQr);
 router.get("/grant/entry/:id", Controller.user.grantEntry);
+router.post("/api/user/sendcustomemail", Controller.user.sendCustomEmail);
 
 //ACC API
 router.post("/api/accommodation/create", Controller.acc.accCreate);
